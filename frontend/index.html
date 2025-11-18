@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLtoRA - SQL to Relational Algebra Compiler</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>SQLtoRA</h1>
+            <p class="subtitle">SQL Query Compiler & Visualizer</p>
+            <p class="description">Watch your SQL query transform through every compilation stage</p>
+        </header>
+
+        <!-- Input Section -->
+        <section class="input-section">
+            <div class="input-container">
+                <label for="sql-input">Enter SQL Query:</label>
+                <textarea 
+                    id="sql-input" 
+                    placeholder="SELECT employees.name, departments.name&#10;FROM employees&#10;JOIN departments ON employees.department_id = departments.id&#10;WHERE employees.salary > 50000"
+                    rows="6"
+                ></textarea>
+                <div class="button-group">
+                    <button id="process-btn" class="btn btn-primary">
+                        <span class="btn-icon">⚡</span>
+                        Process Query
+                    </button>
+                    <button id="clear-btn" class="btn btn-secondary">
+                        <span class="btn-icon">🗑️</span>
+                        Clear
+                    </button>
+                    <button id="schema-btn" class="btn btn-secondary">
+                        <span class="btn-icon">📋</span>
+                        View Schema
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sample Queries -->
+            <div class="samples">
+                <h3>Sample Queries:</h3>
+                <div class="sample-buttons">
+                    <button class="sample-btn" data-query="SELECT * FROM employees WHERE salary > 50000">Simple WHERE</button>
+                    <button class="sample-btn" data-query="SELECT name, department_id FROM employees">Projection</button>
+                    <button class="sample-btn" data-query="SELECT e.name, d.name FROM employees e JOIN departments d ON e.department_id = d.id">JOIN Query</button>
+                    <button class="sample-btn" data-query="SELECT DISTINCT department_id FROM employees WHERE salary > 60000">DISTINCT</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Processing query through compilation pipeline...</p>
+        </div>
+
+        <!-- Results Section -->
+        <section id="results" class="results hidden">
+            <!-- Stage 1: Tokenization -->
+            <div class="stage" id="stage-tokens">
+                <div class="stage-header">
+                    <span class="stage-number">1</span>
+                    <h2>Tokenization</h2>
+                    <span class="stage-status"></span>
+                </div>
+                <div class="stage-content">
+                    <p class="stage-description">Breaking down SQL query into tokens (lexical analysis)</p>
+                    <div id="tokens-output" class="output"></div>
+                </div>
+            </div>
+
+            <!-- Stage 2: Parse Tree -->
+            <div class="stage" id="stage-parse">
+                <div class="stage-header">
+                    <span class="stage-number">2</span>
+                    <h2>Parse Tree</h2>
+                    <span class="stage-status"></span>
+                </div>
+                <div class="stage-content">
+                    <p class="stage-description">Building syntax tree according to SQL grammar</p>
+                    <div id="parse-tree-output" class="output"></div>
+                </div>
+            </div>
+
+            <!-- Stage 3: AST -->
+            <div class="stage" id="stage-ast">
+                <div class="stage-header">
+                    <span class="stage-number">3</span>
+                    <h2>Abstract Syntax Tree (AST)</h2>
+                    <span class="stage-status"></span>
+                </div>
+                <div class="stage-content">
+                    <p class="stage-description">Semantic structure representing query meaning</p>
+                    <div id="ast-output" class="output"></div>
+                </div>
+            </div>
+
+            <!-- Stage 4: Semantic Analysis -->
+            <div class="stage" id="stage-semantic">
+                <div class="stage-header">
+                    <span class="stage-number">4</span>
+                    <h2>Semantic Analysis</h2>
+                    <span class="stage-status"></span>
+                </div>
+                <div class="stage-content">
+                    <p class="stage-description">Validating table and column references</p>
+                    <div id="semantic-output" class="output"></div>
+                </div>
+            </div>
+
+            <!-- Stage 5: Relational Algebra -->
+            <div class="stage" id="stage-ra">
+                <div class="stage-header">
+                    <span class="stage-number">5</span>
+                    <h2>Relational Algebra</h2>
+                    <span class="stage-status"></span>
+                </div>
+                <div class="stage-content">
+                    <p class="stage-description">Mathematical representation of query operations</p>
+                    <div id="ra-output" class="output"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Schema Modal -->
+        <!-- <div id="schema-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Database Schema</h2>
+                <div id="schema-content"></div>
+            </div>
+        </div> -->
+    </div>
+
+    <footer class="footer">
+        <p>SQLtoRA v1.0 - Educational SQL Compiler Visualization Tool</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
